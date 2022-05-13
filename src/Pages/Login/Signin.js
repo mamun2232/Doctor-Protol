@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import { useAuthState, useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { async } from '@firebase/util';
 
 
 const Signin = () => {
-      const navigate =  useNavigate()
+      const navigate = useNavigate()
       const [user] = useAuthState(auth)
 
 
@@ -18,7 +18,7 @@ const Signin = () => {
             Cuser,
             loading,
             error,
-          ] = useCreateUserWithEmailAndPassword(auth);
+      ] = useCreateUserWithEmailAndPassword(auth);
 
       //     update fofile 
       const [updateProfile, updating, Uperror] = useUpdateProfile(auth);
@@ -26,20 +26,22 @@ const Signin = () => {
       const { register, formState: { errors }, handleSubmit } = useForm();
       const onSubmit = async data => {
             console.log(data);
-           await createUserWithEmailAndPassword(data.email , data.password)
-           await updateProfile({displayName: data.name})
+            await createUserWithEmailAndPassword(data.email, data.password)
+            await updateProfile({ displayName: data.name })
       }
+      // signUp gooogle 
+      const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
 
       // show arror massage 
       let errorMassage;
 
-      if(error || Uperror){
+      if (error || Uperror) {
             errorMassage = <p className='text-red-500'>{error.message}</p>
 
 
       }
 
-      if(user){
+      if (user) {
             navigate('/')
             console.log(user);
       }
@@ -61,16 +63,16 @@ const Signin = () => {
                                                 class="input input-bordered w-full max-w-xs bg-white text-black"
                                                 {...register("name", {
                                                       required: {
-                                                          value: true,
-                                                          message: 'Email is Required'
+                                                            value: true,
+                                                            message: 'Email is Required'
                                                       }
-                                                     
-                                                  })} />
+
+                                                })} />
                                           <label class="label">
 
                                                 {errors.name?.type === 'required' && <span className='text-red-500'>{errors.name.message}</span>}
 
-                                               
+
 
 
 
@@ -89,20 +91,20 @@ const Signin = () => {
                                                 class="input input-bordered w-full max-w-xs bg-white text-black"
                                                 {...register("email", {
                                                       required: {
-                                                          value: true,
-                                                          message: 'Email is Required'
+                                                            value: true,
+                                                            message: 'Email is Required'
                                                       },
                                                       pattern: {
-                                                          value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                                                          message: 'Provide a valid Email'
+                                                            value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                                                            message: 'Provide a valid Email'
                                                       }
-                                                  })} />
+                                                })} />
                                           <label class="label">
 
                                                 {errors.email?.type === 'required' && <span className='text-red-500'>{errors.email.message}</span>}
 
                                                 {errors.email?.type === 'pattern' && <span className='text-red-500'>{errors.email.message}</span>}
-                                               
+
 
 
 
@@ -126,24 +128,24 @@ const Signin = () => {
                                                             minLength: {
                                                                   value: 6,
                                                                   message: 'Must be 6 characters or longer'
-                                                              }
+                                                            }
 
                                                       })} />
-                                                      
+
 
 
                                           <label class="label">
-                                          
+
                                                 {errors.password?.type === 'required' && <span className='text-red-500'>{errors.password.message}</span>}
 
                                                 {errors.password?.type === 'minLength' && <span className='text-red-500'>{errors.password.message}</span>}
-                                              
+
 
                                           </label>
-                                          
+
                                           {errorMassage}
                                     </div>
-                                  
+
 
 
 
@@ -154,12 +156,12 @@ const Signin = () => {
 
                               </form>
 
-                              <p className='text-center text-black'>All ready Account? <span className='text-accent' onClick={()=> navigate('/login')}>Please login</span></p>
+                              <p className='text-center text-black'>All ready Account? <span className='text-accent' onClick={() => navigate('/login')}>Please login</span></p>
 
 
 
                               <div class="divider">OR</div>
-                              <button class="btn text-white">Cuntinue With Google</button>
+                              <button onClick={() => signInWithGoogle()} class="btn text-white">Cuntinue With Google</button>
 
 
 

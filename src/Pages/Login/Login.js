@@ -1,13 +1,67 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { useAuthState, useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
       const navigate =  useNavigate()
+      const [user] = useAuthState(auth)
+
+      const emailRef = useRef('')
+      const location = useLocation()
+
+      let from = location.state?.from?.pathname || "/";
+
+
+      // create account 
+      const [
+            signInWithEmailAndPassword,
+            Cuser,
+            loading,
+            error,
+          ] = useSignInWithEmailAndPassword(auth);
+
+
+      //     password ract 
+      const [sendPasswordResetEmail, sending, Perror] = useSendPasswordResetEmail(
+            auth
+          );
 
       const { register, formState: { errors }, handleSubmit } = useForm();
-      const onSubmit = data => {
+      const onSubmit =  data => {
             console.log(data);
+          signInWithEmailAndPassword(data.email , data.password)
+      }
+      // forgate password 
+      const forgatePasswordHundeler = ()=>{
+            const email = emailRef.current.value
+            console.log(email);
+            if(email){
+                  console.log(email);
+                  sendPasswordResetEmail(email)
+                  toast('Reset Password sent')
+       
+                  }
+                  else{
+                        toast("Please Provite a email")
+
+                  }
+      }
+      // signin google 
+      const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
+
+      let errorMassage;
+      if(error || Perror || Gerror){
+            errorMassage = <p className='text-red-500'>{error?.message || Perror?.message || Gerror?.message} </p>
+      }
+
+      if(user){
+            navigate(from, { replace: true })
+
       }
       return (
             <div className='flex h-screen justify-center items-center'>
@@ -24,7 +78,7 @@ const Login = () => {
                                                 <span class="label-text text-black">Email</span>
 
                                           </label>
-                                          <input type="email"
+                                          <input ref={emailRef} type="email"
                                                 placeholder="Enter Email"
                                                 class="input input-bordered w-full max-w-xs bg-white text-black"
                                                 {...register("email", {
@@ -69,6 +123,7 @@ const Login = () => {
                                                               }
 
                                                       })} />
+                                                      {errorMassage}
                                                       
 
 
@@ -87,7 +142,7 @@ const Login = () => {
 
                                     {/* submit btn  */}
                                     <input className='btn w-full max-w-xs text-white' type="submit" value="Login" />
-                                    <small className='text-end text-red-500'>Forgate Password</small>
+                                    <small onClick={()=> forgatePasswordHundeler()} className='text-end text-red-500'>Forgate Password</small>
 
 
                               </form>
@@ -97,7 +152,7 @@ const Login = () => {
 
 
                               <div class="divider">OR</div>
-                              <button class="btn text-white">Cuntinue With Google</button>
+                              <button onClick={()=> signInWithGoogle()} class="btn text-white">Cuntinue With Google</button>
 
 
 
