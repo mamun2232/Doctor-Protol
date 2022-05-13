@@ -9,7 +9,7 @@ const TeatMent = ({date}) => {
       // btn e click kore je tratment take nebo setake set kore debo 
       const [newTreatment , setNewTreatment] = useState(null)
       useEffect(()=>{
-            fetch('service.json')
+            fetch('http://localhost:5000/service')
             .then(res => res.json())
             .then(data => setTreatment(data))
 

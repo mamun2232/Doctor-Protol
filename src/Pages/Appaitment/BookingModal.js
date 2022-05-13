@@ -25,7 +25,7 @@ const BookingModal = ({ newTreatment, date }) => {
                                           <select class="select w-full max-w-xs bg-white text-black">
                                                 {/* ekhane slot ke map kora hoyese  */}
                                           {
-                                                slots.map(slot => <option>{slot}</option>)
+                                                slots.map((slot , index) => <option key={index}>{slot}</option>)
                                           }
 
                                                
