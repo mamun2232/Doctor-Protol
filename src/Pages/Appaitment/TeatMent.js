@@ -35,6 +35,7 @@ const TeatMent = ({date}) => {
                     {/* stap -3 : ekhane newmodal e jehutu select kora item ese prse tahole modal e sei start ta patiye debo */}
                     {
                           newTreatment && <BookingModal
+                          setNewTreatment={setNewTreatment}
                            newTreatment={newTreatment}
                            date={date}></BookingModal>
                     }

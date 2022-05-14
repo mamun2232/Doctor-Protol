@@ -1,11 +1,64 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { format } from 'date-fns';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
-const BookingModal = ({ newTreatment, date }) => {
-      const { name, slots } = newTreatment
+import toast from 'react-hot-toast';
+const BookingModal = ({ newTreatment, date  , setNewTreatment}) => {
+      const {_id, name, slots } = newTreatment
+
+      const formateDate = format(date, 'PP')
+
+      const nameRef = useRef('')
+      const slotRef = useRef('')
+      const numberRef = useRef('')
 
       const [user] = useAuthState(auth)
+
+
+      // add booking to server 
+
+      const bookingHendeler = (event) => {
+            event.preventDefault()
+      
+            const number = numberRef.current.value
+            const slot = slotRef.current.value
+           
+
+            const booking = {
+                  treatmentID : _id ,
+                  treatment: name,
+                  date: formateDate,
+                  patient: user.email,
+                  patienName: user.displayName,
+                  number: number,
+                  slot
+                  
+
+            }
+
+            fetch('http://localhost:5000/booking', {
+                  method: 'POST',
+                  body: JSON.stringify(
+                       booking
+                  ),
+                  headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                  },
+            })
+                  .then((response) => response.json())
+                  .then((data) => {
+                        console.log(data);
+                        if(data.success){
+                              toast.success(`Appointment is set, ${formateDate} at ${slot}`)
+
+                        }
+                        else{
+                              toast.error(`Already have and appointment on ${data.booking?.date} at ${data.booking?.slot}`)
+
+                        }
+                  });
+                  setNewTreatment(null)
+      }
 
       return (
 
@@ -19,25 +72,25 @@ const BookingModal = ({ newTreatment, date }) => {
                               <label for="booking-modal" class="btn btn-sm btn-circle  absolute right-2 top-2">✕</label>
                               <h3 class="font-bold text-lg text-accent">Your Booking: {name}</h3>
                               <div className="from-section text-center">
-                                    <form className=' mt-2'>
+                                    <form onSubmit={bookingHendeler} className=' mt-2'>
                                           <input type="text" value={format(date, 'PP')} class="input input-bordered w-full max-w-xs my-2 bg-white text-black" />
                                           <br />
-                                          <select class="select w-full max-w-xs bg-white text-black">
+                                          <select ref={slotRef} class="select w-full max-w-xs bg-white text-black">
                                                 {/* ekhane slot ke map kora hoyese  */}
-                                          {
-                                                slots.map((slot , index) => <option key={index}>{slot}</option>)
-                                          }
+                                                {
+                                                      slots.map((slot, index) => <option key={index}>{slot}</option>)
+                                                }
 
-                                               
+
                                           </select>
 
-                                          
+
                                           <br />
-                                          <input type="text" value={user?.displayName} class="input input-bordered w-full max-w-xs my-2 bg-white text-black" />
+                                          <input ref={nameRef} type="text" value={user?.displayName} class="input input-bordered w-full max-w-xs my-2 bg-white text-black" />
                                           <br />
                                           <input type="text" value={user?.email} class="input input-bordered w-full max-w-xs my-2 bg-white text-black" />
                                           <br />
-                                          <input type="number" placeholder="Enter Phone Number" class="input input-bordered w-full max-w-xs my-2 bg-white" />
+                                          <input ref={numberRef} type="number" placeholder="Enter Phone Number" class="input input-bordered w-full max-w-xs my-2 bg-white" />
                                           <br />
                                           <input type="submit" value='Submit' class="input input-bordered w-full max-w-xs bg-accent text-white font-bold" />
                                           <br />

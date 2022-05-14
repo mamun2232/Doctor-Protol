@@ -10,6 +10,7 @@ import Signin from './Pages/Login/Signin';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RequireAuth from './Pages/Login/RequireAuth';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
         <Route path='/signup' element={<Signin></Signin>}></Route>
       </Routes>
       <ToastContainer></ToastContainer>
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
    
     </div>
   );

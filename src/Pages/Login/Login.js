@@ -31,7 +31,7 @@ const Login = () => {
             auth
           );
 
-      const { register, formState: { errors }, handleSubmit } = useForm();
+      const { register, formState: { errors }, handleSubmit , control } = useForm();
       const onSubmit =  data => {
             console.log(data);
           signInWithEmailAndPassword(data.email , data.password)
@@ -78,7 +78,7 @@ const Login = () => {
                                                 <span class="label-text text-black">Email</span>
 
                                           </label>
-                                          <input ref={emailRef} type="email"
+                                          <input  ref={emailRef} type="email"
                                                 placeholder="Enter Email"
                                                 class="input input-bordered w-full max-w-xs bg-white text-black"
                                                 {...register("email", {
