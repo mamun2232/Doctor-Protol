@@ -14,6 +14,7 @@ import { Toaster } from 'react-hot-toast';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import MyAppoinment from './Pages/Dashboard/MyAppoinment';
 import Review from './Pages/Dashboard/Review';
+import AllUser from './Pages/Dashboard/AllUser';
 
 
 function App() {
@@ -28,13 +29,14 @@ function App() {
           <Appaitment></Appaitment>
         </RequireAuth>}></Route>
 
-        <Route path='/dashborad' element={<RequireAuth>
+        <Route path='/dashborad' i element={<RequireAuth>
           <Dashboard>
           </Dashboard>
         </RequireAuth>}>
 
           <Route path='/dashborad/Myappoinment' index element={<MyAppoinment></MyAppoinment>}></Route>
           <Route path='/dashborad/review' element={<Review></Review>}></Route>
+          <Route path='/dashborad/user' element={<AllUser></AllUser>}></Route>
 
         </Route>
         <Route path='/login' element={<Login></Login>}></Route>

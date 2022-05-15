@@ -6,6 +6,7 @@ import auth from '../../firebase.init';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from '../Sheard/Loading';
+import useToken from '../Hook/useToken';
 
 
 const Login = () => {
@@ -37,6 +38,8 @@ const Login = () => {
             console.log(data);
           signInWithEmailAndPassword(data.email , data.password)
       }
+        // signin google 
+        const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
       // forgate password 
       const forgatePasswordHundeler = ()=>{
             const email = emailRef.current.value
@@ -51,20 +54,21 @@ const Login = () => {
 
                   }
       }
-      // signin google 
-      const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
+    
 
       let errorMassage;
       if(error || Perror || Gerror){
             errorMassage = <p className='text-red-500'>{error?.message || Perror?.message || Gerror?.message} </p>
       }
+      const [token] = useToken(Cuser || Guser)
+      console.log(token);
 
       if(Gloading || loading){
             return <Loading></Loading>
 
       }
 
-      if(user){
+      if(token){
             navigate(from, { replace: true })
 
       }

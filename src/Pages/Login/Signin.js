@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { async } from '@firebase/util';
+import useToken from '../Hook/useToken';
 
 
 const Signin = () => {
@@ -25,25 +26,30 @@ const Signin = () => {
 
       const { register, formState: { errors }, handleSubmit } = useForm();
       const onSubmit = async data => {
-            console.log(data);
+       
             await createUserWithEmailAndPassword(data.email, data.password)
             await updateProfile({ displayName: data.name })
       }
       // signUp gooogle 
       const [signInWithGoogle, Guser, Gloading, Gerror] = useSignInWithGoogle(auth);
 
+
+      const [token] = useToken(Cuser || Guser)
+      console.log(token);
+
       // show arror massage 
       let errorMassage;
 
       if (error || Uperror) {
-            errorMassage = <p className='text-red-500'>{error.message}</p>
+            errorMassage = <p className='text-red-500'>{error?.message}</p>
 
 
       }
 
-      if (user) {
+      // token genaret hole navigate hobe 
+      if (token) {
             navigate('/')
-            console.log(user);
+           
       }
       return (
             <div className='flex h-screen justify-center items-center'>
