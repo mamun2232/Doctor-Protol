@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from '../Sheard/Loading';
 
 
 const Login = () => {
@@ -39,9 +40,8 @@ const Login = () => {
       // forgate password 
       const forgatePasswordHundeler = ()=>{
             const email = emailRef.current.value
-            console.log(email);
+          
             if(email){
-                  console.log(email);
                   sendPasswordResetEmail(email)
                   toast('Reset Password sent')
        
@@ -57,6 +57,11 @@ const Login = () => {
       let errorMassage;
       if(error || Perror || Gerror){
             errorMassage = <p className='text-red-500'>{error?.message || Perror?.message || Gerror?.message} </p>
+      }
+
+      if(Gloading || loading){
+            return <Loading></Loading>
+
       }
 
       if(user){

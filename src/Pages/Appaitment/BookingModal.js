@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import toast from 'react-hot-toast';
-const BookingModal = ({ newTreatment, date  , setNewTreatment}) => {
+const BookingModal = ({ newTreatment, date  , setNewTreatment , refetch}) => {
       const {_id, name, slots } = newTreatment
 
       const formateDate = format(date, 'PP')
@@ -57,6 +57,7 @@ const BookingModal = ({ newTreatment, date  , setNewTreatment}) => {
 
                         }
                   });
+                  refetch()
                   setNewTreatment(null)
       }
 
