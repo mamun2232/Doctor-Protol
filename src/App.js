@@ -15,13 +15,14 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import MyAppoinment from './Pages/Dashboard/MyAppoinment';
 import Review from './Pages/Dashboard/Review';
 import AllUser from './Pages/Dashboard/AllUser';
+import RequareAdmin from './Pages/Login/RequareAdmin';
 
 
 function App() {
   return (
     <div className='apps'>
       <Navber></Navber>
-      
+
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/about' element={<About></About>}></Route>
@@ -36,7 +37,11 @@ function App() {
 
           <Route path='/dashborad/Myappoinment' index element={<MyAppoinment></MyAppoinment>}></Route>
           <Route path='/dashborad/review' element={<Review></Review>}></Route>
-          <Route path='/dashborad/user' element={<AllUser></AllUser>}></Route>
+          <Route path='/dashborad/user' element={
+            <RequareAdmin>
+              <AllUser></AllUser>
+            </RequareAdmin>}>
+          </Route>
 
         </Route>
         <Route path='/login' element={<Login></Login>}></Route>
@@ -44,10 +49,10 @@ function App() {
       </Routes>
       <ToastContainer></ToastContainer>
       <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
-   
+        position="top-center"
+        reverseOrder={false}
+      />
+
     </div>
   );
 }
