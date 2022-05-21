@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TreatmentCard = ({treatment , setNewTreatment}) => {
-      const { name , slots} = treatment
+      const { name , slots , price} = treatment
       return (
             <div class="card lg:max-w-lg shadow-xl text-black">
             <div class="card-body text-center">
@@ -12,7 +12,9 @@ const TreatmentCard = ({treatment , setNewTreatment}) => {
                      : 
                      <p className='text-red-500'>No Slot Available</p>
               }
+               <p>Price: <span className='text-red-400 font-bold'>${price}</span></p>
               <p>{slots.length} {slots.length > 1 ? 'spaces' : 'space'}   Available</p>
+             
 
 
               {/* ekhane je traetment er btn e click kora hoise seta setkorbe debo start e  */}

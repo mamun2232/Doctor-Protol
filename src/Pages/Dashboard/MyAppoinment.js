@@ -1,7 +1,7 @@
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 
 const MyAppoinment = () => {
@@ -24,16 +24,13 @@ const MyAppoinment = () => {
                               localStorage.removeItem('accessToken')
                               navigate('/login')
 
-
                         }
-
-
                         return res.json()
                   })
                   .then(data => setAppoinment(data))
 
       }, [])
-      console.log(myAppoinment);
+      
       return (
             <div className="my-appoainment bg-white">
                   <p className='text-xl text-black mt-2'>My Appoinment</p>
@@ -47,6 +44,7 @@ const MyAppoinment = () => {
                                           <th>Service</th>
                                           <th>Time</th>
                                           <th>Date</th>
+                                          <th>Payment</th>
                                     </tr>
                               </thead>
                               <tbody>
@@ -59,6 +57,23 @@ const MyAppoinment = () => {
                                                       <td>{appoanment.treatment}</td>
                                                       <td>{appoanment.slot}</td>
                                                       <td>{appoanment.date}</td>
+                                                      <td>
+                                                            {/* set a payment button  */}
+                                                            {
+                                                                  (appoanment.price && !appoanment.paid) && <Link to={`/dashborad/payment/${appoanment._id}`} ><button className='btn btn-md btn-success'>Pay</button></Link>
+
+                                                            }
+
+                                                            {/* judi payment hoy paid dekabo  */}
+                                                            {
+                                                            (appoanment.price && appoanment.paid) && <p className='text-succes'>
+                                                                  Paid
+                                                            </p>
+
+                                                            }
+
+
+                                                      </td>
 
                                                 </tr>
 

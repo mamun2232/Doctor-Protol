@@ -16,13 +16,16 @@ import MyAppoinment from './Pages/Dashboard/MyAppoinment';
 import Review from './Pages/Dashboard/Review';
 import AllUser from './Pages/Dashboard/AllUser';
 import RequareAdmin from './Pages/Login/RequareAdmin';
+import AddDoctor from './Pages/Dashboard/AddDoctor';
+import ManageDoctor from './Pages/Dashboard/ManageDoctor';
+import Payment from './Pages/Dashboard/Payment';
 
 
 function App() {
   return (
     <div className='apps'>
       <Navber></Navber>
-
+      
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
         <Route path='/about' element={<About></About>}></Route>
@@ -30,17 +33,28 @@ function App() {
           <Appaitment></Appaitment>
         </RequireAuth>}></Route>
 
-        <Route path='/dashborad' i element={<RequireAuth>
+        <Route path='/dashborad'  element={<RequireAuth>
           <Dashboard>
           </Dashboard>
         </RequireAuth>}>
 
           <Route path='/dashborad/Myappoinment' index element={<MyAppoinment></MyAppoinment>}></Route>
           <Route path='/dashborad/review' element={<Review></Review>}></Route>
+          <Route path='/dashborad/payment/:id' element={<Payment></Payment>}></Route>
           <Route path='/dashborad/user' element={
-            <RequareAdmin>
-              <AllUser></AllUser>
-            </RequareAdmin>}>
+          <RequareAdmin>
+            <AllUser></AllUser>
+          </RequareAdmin>}>
+          </Route>
+          <Route path='/dashborad/addDoctor' element={
+          <RequareAdmin>
+            <AddDoctor></AddDoctor>
+          </RequareAdmin>}>
+          </Route>
+          <Route path='/dashborad/manageDoctor' element={
+          <RequareAdmin>
+            <ManageDoctor></ManageDoctor>
+          </RequareAdmin>}>
           </Route>
 
         </Route>
@@ -49,10 +63,10 @@ function App() {
       </Routes>
       <ToastContainer></ToastContainer>
       <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
-
+  position="top-center"
+  reverseOrder={false}
+/>
+   
     </div>
   );
 }

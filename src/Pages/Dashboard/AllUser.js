@@ -21,7 +21,7 @@ const AllUser = () => {
       })
       .then(res => {
             // chack jwt token access
-            if(res.status == 401 || res.status === 403){
+            if(res.status === 401 || res.status === 403){
                   signOut(auth)
                   localStorage.removeItem('accessToken')
                   navigate('/login')
@@ -41,10 +41,10 @@ const AllUser = () => {
 
 
       return (
-            <div>
-                  <p className='text-xl text-black'>Our All User {users?.length}</p>
+            <div className='bg-white'>
+                  <p className='text-xl text-black mt-2'>Our All User {users?.length}</p>
                   <div class="overflow-x-auto">
-                        <table class="table w-full">
+                        <table class="table w-full ">
 
 
                               <thead>

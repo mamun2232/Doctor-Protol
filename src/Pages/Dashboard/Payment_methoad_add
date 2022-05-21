@@ -1,0 +1,37 @@
+
+
+/*
+client site wark ..........
+ step 1 : pk test key take decler korbo 
+step -2: components dicler chackout from 
+step -3 : copy to from and past chackoutFrom
+stap - 4: declare useStrip and useElement hook
+step - 5: EventHendeler er modde kon typer aplement hobe ta set kora 
+
+server site wark ............
+step 6 : site a requre to stripe and show secrte key
+step -7:  payment method aplement and 
+step 7.5: create paymentIntent and sekhane bole debo koto tk katbe 
+ client site wark -------------
+ step 8 : Initialize Stripe Elements
+      ( server theke ei api ta call korbo and price e patabo )
+
+step : 9 confrom card payment korbo
+step 10 : store payment in database 
+step : 11- payment hoye gele bookking calection update korbo(payment) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
